@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -12,6 +13,11 @@ import {
   cilPuzzle,
   cilSpeedometer,
   cilStar,
+  cibOpsgenie,
+  cibSlideshare,
+  cilPeople,
+  cilMoney,
+  cibCashapp
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
@@ -28,6 +34,22 @@ const _nav = [
   },
   {
     component: CNavTitle,
+    name: 'Finance',
+  },  
+  {
+    component: CNavItem,
+    name: 'Fees',
+    to: '/fees',
+    icon: <CIcon icon={cilMoney} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Salaries',
+    to: '/salaries',
+    icon: <CIcon icon={cibCashapp} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
     name: 'Theme',
   },
   // {
@@ -40,13 +62,13 @@ const _nav = [
     component: CNavItem,
     name: 'Students',
     to: '/students',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilPeople} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Teachers',
     to: '/teachers',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibOpsgenie} customClassName="nav-icon" />,
   },
   // {
   //   component: CNavItem,
@@ -163,7 +185,7 @@ const _nav = [
     component: CNavGroup,
     name: 'Classes',
     to: '/classes',
-    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+    icon: <CIcon icon={cibSlideshare} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,

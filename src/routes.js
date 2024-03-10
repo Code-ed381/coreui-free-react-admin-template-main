@@ -62,6 +62,12 @@ const Students = React.lazy(() => import('./views/students/Students'))
 // Teachers
 const Teachers = React.lazy(() => import('./views/teachers/Teachers'))
 
+// Fees
+const Fees = React.lazy(() => import('./views/fees/Fees'))
+
+// Salaries
+const Salaries = React.lazy(() => import('./views/salaries/Salaries'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -123,6 +129,8 @@ const routes = [
   { path: '/classes/form-three', name: 'Form 3', element: ClassOne },
   { path: '/students', name: 'Students', element: Students },
   { path: '/teachers', name: 'Teachers', element: Teachers },
+  { path: '/fees', name: 'Fees', element: Fees },
+  { path: '/salaries', name: 'Salaries', element: Salaries },
 ]
 
 export default routes

@@ -36,8 +36,9 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-
-
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import TextField from '@mui/material/TextField';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -59,7 +60,7 @@ function TabPanel(props) {
     );
 }
 
-const Students = ()=> {
+const Salaries = ()=> {
     const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
@@ -69,6 +70,19 @@ const Students = ()=> {
     const handleOpen = () => {
       setOpen(true);
     };
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 800,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
+
 
     const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
 
@@ -97,31 +111,24 @@ const Students = ()=> {
             <CContainer>
                 <CCard >
                
-                    <CCardHeader className="text-center"><strong>Students</strong></CCardHeader>
+                    <CCardHeader className="text-center"><strong>Salaries</strong></CCardHeader>
                         <CCardBody>
                         <Tabs value={value} onChange={handleChange} aria-label="icon tabs example" centered>
                             <Tab icon={<FormatListBulletedIcon />} aria-label="phone" />
                             <Tab icon={<GridViewIcon />} aria-label="favorite" />
                         </Tabs>
                         <TabPanel value={value} index={0}>
-                            <Button className="mb-2" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
-                                New Student
+                            <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
+                                New Teacher
                             </Button>
                             <div style={{ height: 400, width: '100%' }}>
                                 <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
                             </div>
-                            <Backdrop
-                                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                                open={open}
-                                onClick={handleClose}
-                            >
-                                <CircularProgress color="inherit" />
-                                Hello Hendrix
-                            </Backdrop>
+
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <Button className="mb-2" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
-                                New Student
+                            <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
+                                New Teacher
                             </Button>
 
                             <CRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
@@ -149,8 +156,35 @@ const Students = ()=> {
                     <CCardFooter className="text-medium-emphasis text-center">2 days ago</CCardFooter>
                 </CCard>
             </CContainer>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                backdrop: {
+                    timeout: 500,
+                },
+                }}
+            >
+                <Fade in={open}>
+                <Box sx={style}>
+                    {/* <Typography id="transition-modal-title" variant="h6" component="h2">
+                        Add new teacher
+                    </Typography> */}
+                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
+                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
+                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
+                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
+                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
+                </Box>
+                </Fade>
+            </Modal>  
         </>
     )
 }
 
-export default Students
+export default Salaries

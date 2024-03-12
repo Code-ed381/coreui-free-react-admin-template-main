@@ -68,6 +68,10 @@ const Fees = React.lazy(() => import('./views/fees/Fees'))
 // Salaries
 const Salaries = React.lazy(() => import('./views/salaries/Salaries'))
 
+// Users
+const Users = React.lazy(() => import('./views/users/Users'))
+
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -131,6 +135,7 @@ const routes = [
   { path: '/teachers', name: 'Teachers', element: Teachers },
   { path: '/fees', name: 'Fees', element: Fees },
   { path: '/salaries', name: 'Salaries', element: Salaries },
+  { path: '/users', name: 'Users', element: Users },
 ]
 
 export default routes

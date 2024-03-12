@@ -36,6 +36,13 @@ import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 
@@ -70,6 +77,18 @@ const Students = ()=> {
       setOpen(true);
     };
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 600,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
+
     const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
 
     const rows: GridRowsProp = [
@@ -82,13 +101,30 @@ const Students = ()=> {
     ];
       
     const columns: GridColDef[] = [
-        { field: 'col1', headerName: 'Column 1', width: 150 },
-        { field: 'col2', headerName: 'Column 2', width: 150 },
+        { field: 'col1', headerName: 'Avatar', width: 80 },
+        { field: 'col2', headerName: 'First name', width: 200 },
+        { field: 'col3', headerName: 'Other name', width: 200 },
+        { field: 'col4', headerName: 'Last name', width: 200 },
+        { field: 'col5', headerName: 'Age', width: 80 },
+        { field: 'col6', headerName: 'Class', width: 100 },
+        { field: 'col7', headerName: 'Position', width: 100 },
+
     ];
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
+    };
+
+    const [age, setAge] = React.useState('');
+    const [status, setStatus] = React.useState('');
+
+    const handleChangeOne = (event) => {
+      setAge(event.target.value);
+    };
+
+    const handleChangeTwo = (event) => {
+        setStatus(event.target.value);
     };
 
 
@@ -104,35 +140,34 @@ const Students = ()=> {
                             <Tab icon={<GridViewIcon />} aria-label="favorite" />
                         </Tabs>
                         <TabPanel value={value} index={0}>
-                            <Button className="mb-2" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
+                            <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
                                 New Student
                             </Button>
                             <div style={{ height: 400, width: '100%' }}>
                                 <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
                             </div>
-                            <Backdrop
-                                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                                open={open}
-                                onClick={handleClose}
-                            >
-                                <CircularProgress color="inherit" />
-                                Hello Hendrix
-                            </Backdrop>
                         </TabPanel>
                         <TabPanel value={value} index={1}>
-                            <Button className="mb-2" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
-                                New Student
-                            </Button>
+                            <CRow className="mb-4">
+                                <CCol sm={5}>
+                                    <Button  startIcon={<AddIcon />} size="small" onClick={handleOpen}>
+                                        New Student
+                                    </Button>
+                                </CCol>
+                                <CCol sm={7}>
+                                    <CFormInput type="text" size="sm" placeholder="Search Student" aria-label="sm input example"/>
+                                </CCol>
+                            </CRow>
 
                             <CRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
                                 <CCol xs>
                                 <Card sx={{ maxWidth: 270, minHeight: 220 }}>
                                     <CardActionArea >
                                         <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={image1}
-                                        alt="green iguana"
+                                            component="img"
+                                            height="140"
+                                            image={image1}
+                                            alt="green iguana"
                                         />
                                         <CardContent>
                                         <Typography gutterBottom variant="title" component="div">
@@ -149,6 +184,70 @@ const Students = ()=> {
                     <CCardFooter className="text-medium-emphasis text-center">2 days ago</CCardFooter>
                 </CCard>
             </CContainer>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={handleClose}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                backdrop: {
+                    timeout: 500,
+                },
+                }}
+            >
+                <Fade in={open}>
+                <Box sx={style}>
+                    {/* <Typography id="transition-modal-title" variant="h6" component="h2">
+                        Add new teacher
+                    </Typography> */}
+                    <CRow className="mb-4">
+                        <CCol sm={6}>
+                            <TextField fullWidth size="small" label="First name" id="fullWidth"  variant="filled"/>
+                        </CCol>
+                        <CCol sm={6}>
+                            <TextField fullWidth size="small" label="Last Name" id="fullWidth" variant="filled"/>
+                        </CCol>
+                     </CRow>
+                    <TextField fullWidth size="small" label="Other name(s)" id="fullWidth" className='mb-3' variant="filled"/>
+
+                    <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-filled-label">Class</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={age}
+                        onChange={handleChangeOne}
+                        >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        <MenuItem value={'Creche'}>Creche</MenuItem>
+                        <MenuItem value={'NurseryOne'}>Nursery 1</MenuItem>
+                        <MenuItem value={'NurseryTwo'}>Nursery 2</MenuItem>
+                        <MenuItem value={'kg'}>Kindergarten</MenuItem>
+                        <MenuItem value={'classOne'}>Class 1</MenuItem>
+                        <MenuItem value={'classTwo'}>Class 2</MenuItem>
+                        <MenuItem value={'classThree'}>Class 3</MenuItem>
+                        <MenuItem value={'classFour'}>Class 4</MenuItem>
+                        <MenuItem value={'classFive'}>Class 5</MenuItem>
+                        <MenuItem value={'classSix'}>Class 6</MenuItem>
+                        <MenuItem value={'formOne'}>JHS 1</MenuItem>
+                        <MenuItem value={'formTwo'}>JHS 2</MenuItem>
+                        <MenuItem value={'formThree'}>JHS 3</MenuItem>
+                        </Select>
+                    </FormControl>
+              
+                   
+                    <div className="text-end">
+                        <Button variant="contained">Submit</Button>
+                    </div>
+                </Box>
+                </Fade>
+            </Modal> 
+             
         </>
     )
 }

@@ -13,223 +13,176 @@ import {
     CCol,
     CForm,
     CFormInput,
-    CCardImage
+    CCardImage,
+    CTable,
+    CListGroup,
+    CListGroupItem
 } from '@coreui/react'
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import Tabs from '@mui/material/Tabs';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import PhoneIcon from '@mui/icons-material/Phone';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import GridViewIcon from '@mui/icons-material/GridView';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
-import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
-import image1 from "../../../src/assets/images/avatars/1.jpg"
-import Button from '@mui/material/Button';
-import NavigationIcon from '@mui/icons-material/Navigation';
-import AddIcon from '@mui/icons-material/Add';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+function createData(name, calories, fat, carbs, protein, price) {
+    return {
+      name,
+      calories,
+      fat,
+      carbs,
+      protein,
+      price,
+      history: [
+        {
+          date: '2020-01-05',
+          customerId: '11091700',
+          amount: 3,
+        },
+        {
+          date: '2020-01-02',
+          customerId: 'Anonymous',
+          amount: 1,
+        },
+      ],
+    };
+  }
+  
+  function Row(props) {
+    const { row } = props;
+    const [open, setOpen] = React.useState(false);
   
     return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`vertical-tabpanel-${index}`}
-        aria-labelledby={`vertical-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </div>
+      <React.Fragment>
+        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+          <TableCell>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+          <TableCell component="th" scope="row">
+            {row.name}
+          </TableCell>
+          <TableCell align="right">{row.calories}</TableCell>
+          <TableCell align="right">{row.fat}</TableCell>
+          <TableCell align="right">{row.carbs}</TableCell>
+          <TableCell align="right">{row.protein}</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 1 }}>
+                <Typography variant="h6" gutterBottom component="div">
+                  History
+                </Typography>
+                <Table size="small" aria-label="purchases">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Customer</TableCell>
+                      <TableCell align="right">Amount</TableCell>
+                      <TableCell align="right">Total price ($)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {row.history.map((historyRow) => (
+                      <TableRow key={historyRow.date}>
+                        <TableCell component="th" scope="row">
+                          {historyRow.date}
+                        </TableCell>
+                        <TableCell>{historyRow.customerId}</TableCell>
+                        <TableCell align="right">{historyRow.amount}</TableCell>
+                        <TableCell align="right">
+                          {Math.round(historyRow.amount * row.price * 100) / 100}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      </React.Fragment>
     );
-}
-
-const Fees = ()=> {
-    const [open, setOpen] = React.useState(false);
-
-    const handleClose = () => {
-      setOpen(false);
-    };
-
-    const handleOpen = () => {
-      setOpen(true);
-    };
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 800,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-      };
-
-
-    const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
-
-    const rows: GridRowsProp = [
-        { id: 1, 
-            col1: <h1>Name</h1>, 
-            col2: 'World' 
-        },
-        { id: 2, col1: 'DataGridPro', col2: 'is Awesome' },
-        { id: 3, col1: 'MUI', col2: 'is Amazing' },
-    ];
-      
-    const columns: GridColDef[] = [
-        { field: 'col1', headerName: 'Name', width: 400 },
-        { field: 'col2', headerName: 'Total Fees', width: 200 },
-        { field: 'col3', headerName: 'Amount Paid', width: 200 },
-        { field: 'col4', headerName: 'Balance', width: 200 },
-        { field: 'col5', headerName: 'Arrears', width: 200 },
-    ];
-    const [value, setValue] = React.useState(0);
-
-    const handleChange = (event, newValue) => {
-      setValue(newValue);
-    };
-
-
-    return(
+  }
+  
+  Row.propTypes = {
+    row: PropTypes.shape({
+      calories: PropTypes.number.isRequired,
+      carbs: PropTypes.number.isRequired,
+      fat: PropTypes.number.isRequired,
+      history: PropTypes.arrayOf(
+        PropTypes.shape({
+          amount: PropTypes.number.isRequired,
+          customerId: PropTypes.string.isRequired,
+          date: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+      name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      protein: PropTypes.number.isRequired,
+    }).isRequired,
+  };
+  
+  const rows = [
+    createData('Creche', 159, 6.0, 24, 4.0, 3.99),
+    createData('Nursery 1', 237, 9.0, 37, 4.3, 4.99),
+    createData('Nursery 2', 262, 16.0, 24, 6.0, 3.79),
+    createData('KG', 305, 3.7, 67, 4.3, 2.5),
+    createData('Class 1', 356, 16.0, 49, 3.9, 1.5),
+    createData('Class 2', 356, 16.0, 49, 3.9, 1.5),
+    createData('Class 3', 356, 16.0, 49, 3.9, 1.5),
+    createData('Class 4', 356, 16.0, 49, 3.9, 1.5),
+    createData('Class 5', 356, 16.0, 49, 3.9, 1.5),
+    createData('Class 6', 356, 16.0, 49, 3.9, 1.5),
+    createData('Form 1', 356, 16.0, 49, 3.9, 1.5),
+    createData('Form 2', 356, 16.0, 49, 3.9, 1.5),
+    createData('Form 3', 356, 16.0, 49, 3.9, 1.5),
+  ];
+  
+  const Fees = ()=> {
+    return (
         <>
             <CContainer>
-                <CCard >
-               
+                <CCard>
                     <CCardHeader className="text-center"><strong>Fees</strong></CCardHeader>
-                        <CCardBody>
-                        <Tabs value={value} onChange={handleChange} variant="scrollable" aria-label="icon tabs example" centered>
-                            <Tab label="Creche" />
-                            <Tab label="Nursery 1" />
-                            <Tab label="Nursery 2" />
-                            <Tab label="KG" />
-                            <Tab label="Class 1" />
-                            <Tab label="class 2" />
-                            <Tab label="class 3" />
-                            <Tab label="class 4" />
-                            <Tab label="class 5" />
-                            <Tab label="class 6" />
-                            <Tab label="JHS 1" />
-                            <Tab label="JHS 2" />
-                            <Tab label="JHS 3" />
-                        </Tabs>
-                        <TabPanel value={value} index={0}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={2}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={3}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={4}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={5}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={6}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={7}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={8}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={9}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={10}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={11}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={12}>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        </CCardBody>
-                    <CCardFooter className="text-medium-emphasis text-center">2 days ago</CCardFooter>
+                    <CCardBody>
+                        <TableContainer component={Paper}>
+                            <Table aria-label="collapsible table" stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                <TableCell />
+                                <TableCell><h5><strong>Class</strong></h5></TableCell>
+                                <TableCell align="right"><strong>Total Fees</strong></TableCell>
+                                <TableCell align="right"><strong>Amount Paid</strong></TableCell>
+                                <TableCell align="right"><strong>Arrears</strong></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row) => (
+                                <Row key={row.name} row={row} />
+                                ))}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>   
+                    </CCardBody>
                 </CCard>
             </CContainer>
-
-            <Modal
-                aria-labelledby="transition-modal-title"
-                aria-describedby="transition-modal-description"
-                open={open}
-                onClose={handleClose}
-                closeAfterTransition
-                slots={{ backdrop: Backdrop }}
-                slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
-                }}
-            >
-                <Fade in={open}>
-                <Box sx={style}>
-                    {/* <Typography id="transition-modal-title" variant="h6" component="h2">
-                        Add new teacher
-                    </Typography> */}
-                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
-                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
-                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
-                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
-                    <TextField fullWidth size="small" label="fullWidth" id="fullWidth" variant="filled"/>
-                </Box>
-                </Fade>
-            </Modal>  
         </>
-    )
-}
+    );
+  }
 
-export default Fees
+  export default Fees

@@ -13,7 +13,9 @@ import {
     CCol,
     CForm,
     CFormInput,
-    CCardImage
+    CCardImage,
+    CBadge,
+    CCardLink
 } from '@coreui/react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Tabs from '@mui/material/Tabs';
@@ -64,7 +66,7 @@ function TabPanel(props) {
     );
 }
 
-const Teachers = ()=> {
+const Staff = ()=> {
     const [open, setOpen] = React.useState(false);
 
     const handleClose = () => {
@@ -131,46 +133,78 @@ const Teachers = ()=> {
             <CContainer>
                 <CCard >
                
-                    <CCardHeader className="text-center"><strong>Teachers</strong></CCardHeader>
+                    <CCardHeader className="text-center"><strong>Staff</strong></CCardHeader>
                         <CCardBody>
                         <Tabs value={value} onChange={handleChange} aria-label="icon tabs example" centered>
-                            <Tab icon={<FormatListBulletedIcon />} aria-label="phone" />
                             <Tab icon={<GridViewIcon />} aria-label="favorite" />
+                            <Tab icon={<FormatListBulletedIcon />} aria-label="phone" />
                         </Tabs>
                         <TabPanel value={value} index={0}>
+                            <CRow className="mb-4">
+                                <CCol sm={5}>
+                                    <Button  startIcon={<AddIcon />} size="small" onClick={handleOpen}>
+                                        New Staff
+                                    </Button>
+                                </CCol>
+                                <CCol sm={7}>
+                                    <CFormInput type="text" size="sm" placeholder="Search Staff" aria-label="sm input example"/>
+                                </CCol>
+                            </CRow>
+
+                            <CRow>
+                                <CCol sm={6}>
+                                    <CCard className="mb-3" style={{ maxWidth: '540px' }}>
+                                        <CRow className="g-0">
+                                            <CCol md={4}>
+                                                <CCardImage src={image1} />
+                                            </CCol>
+                                            <CCol md={8}>
+                                                <CCardBody>
+                                                <CCardTitle>
+                                                        Johnny Lee Depp <CBadge size='sm' color="info">teaching</CBadge>
+                                                    </CCardTitle>
+                                                    <CCardText>
+                                                    This is a wider card with supporting text below as a natural lead-in to additional
+                                                    content. This content is a little bit longer.
+                                                    </CCardText>
+                                                    <CCardText>
+                                                    <small className="text-medium-emphasis">Last updated 3 mins ago</small>
+                                                    </CCardText>
+                                                </CCardBody>
+                                            </CCol>
+                                        </CRow>
+                                    </CCard>
+                                </CCol>
+                                <CCol sm={6}>
+                                    <CCard className="mb-3" style={{ maxWidth: '540px' }}>
+                                        <CRow className="g-0">
+                                            <CCol md={4}>
+                                                <CCardImage src={image1} />
+                                            </CCol>
+                                            <CCol md={8}>
+                                                <CCardBody>
+                                                    <CCardTitle>
+                                                        Johnny Lee Depp <CBadge size='sm' color="warning">non-teaching</CBadge>
+                                                    </CCardTitle>
+                                                    <CCardText>
+                                                    <small className="text-medium-emphasis">School prefect</small>
+                                                    </CCardText>
+                                                    <CCardLink href="#/student">View more</CCardLink>
+                                                </CCardBody>
+                                            </CCol>
+                                        </CRow>
+                                    </CCard>
+                                </CCol>
+                            </CRow>
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
                             <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
-                                New Teacher
+                                New Staff
                             </Button>
                             <div style={{ height: 400, width: '100%' }}>
                                 <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
                             </div>
 
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                            <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
-                                New Teacher
-                            </Button>
-
-                            <CRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-                                <CCol xs>
-                                <Card sx={{ maxWidth: 270, minHeight: 220 }}>
-                                    <CardActionArea >
-                                        <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={image1}
-                                        alt="green iguana"
-                                        />
-                                        <CardContent>
-                                        <Typography gutterBottom variant="title" component="div">
-                                            Cindy Thompson humper Jumpec Hendrixx
-                                        </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                    </Card>
-                                    
-                                </CCol>
-                            </CRow>
                         </TabPanel>
                         </CCardBody>
                     <CCardFooter className="text-medium-emphasis text-center">2 days ago</CCardFooter>
@@ -243,6 +277,22 @@ const Teachers = ()=> {
                             <MenuItem value={'married'}>Married</MenuItem>
                         </Select>
                     </FormControl>
+
+                    <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-filled-label">Mode</InputLabel>
+                        <Select
+                        labelId="demo-simple-select-filled-label"
+                        id="demo-simple-select-filled"
+                        value={status}
+                        onChange={handleChangeTwo}
+                        >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                            <MenuItem value={'single'}>Teaching</MenuItem>
+                            <MenuItem value={'married'}>Non teaching</MenuItem>
+                        </Select>
+                    </FormControl>
                    
                    
                     <div className="text-end">
@@ -255,4 +305,4 @@ const Teachers = ()=> {
     )
 }
 
-export default Teachers
+export default Staff

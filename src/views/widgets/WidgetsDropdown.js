@@ -1,4 +1,5 @@
-import React from 'react'
+/* eslint-disable */
+import React, {useState, useEffect} from 'react'
 import {
   CRow,
   CCol,
@@ -12,8 +13,36 @@ import { getStyle } from '@coreui/utils'
 import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+import { createClient } from '@supabase/supabase-js'
+const supabaseKey="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4bXdwY3VsdXJ4dGFhdmpxdGVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDkyMjI2OTcsImV4cCI6MjAyNDc5ODY5N30.6uhlDSEhVHHA0-CMHdPLRDQVrMZ6yz8cd5HvrIan7Xo"
+const supabaseUrl = 'https://pxmwpculurxtaavjqted.supabase.co'
+// const supabaseKey = process.env.SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 const WidgetsDropdown = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    var isMounted = true
+
+    const getUsers = async () => {
+        let { data: users, error } = await supabase
+        .from('users')
+        .select('*')  
+        setData(users)
+
+        console.log(users)
+    }
+
+    getUsers()
+
+    return () => {
+        isMounted = false
+        controller.abort();
+    }
+  }, [])
+
   return (
     <CRow>
       <CCol sm={6} lg={3}>
@@ -22,7 +51,7 @@ const WidgetsDropdown = () => {
           color="primary"
           value={
             <>
-              26K{' '}
+              {data.length}{' '}
               <span className="fs-6 fw-normal">
                 (-12.4% <CIcon icon={cilArrowBottom} />)
               </span>
@@ -54,7 +83,7 @@ const WidgetsDropdown = () => {
                     backgroundColor: 'transparent',
                     borderColor: 'rgba(255,255,255,.55)',
                     pointBackgroundColor: getStyle('--cui-primary'),
-                    data: [65, 59, 84, 84, 51, 55, 40],
+                    data: [65, 80, 84, 84, 51, 55, 40],
                   },
                 ],
               }}
@@ -115,7 +144,7 @@ const WidgetsDropdown = () => {
               </span>
             </>
           }
-          title="Income"
+          title="Students"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="p-0">
@@ -201,7 +230,7 @@ const WidgetsDropdown = () => {
               </span>
             </>
           }
-          title="Conversion Rate"
+          title="Teachers"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="p-0">
@@ -274,7 +303,7 @@ const WidgetsDropdown = () => {
               </span>
             </>
           }
-          title="Sessions"
+          title="Parents"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="p-0">

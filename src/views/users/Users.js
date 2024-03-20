@@ -155,12 +155,12 @@ const Users = ()=> {
     
     data.map(item => {
         newJsonObject.push({id: item['id'], 
-                            col1: item['id'], 
-                            col2: item['username'], 
-                            col3: item['email'], 
-                            col4: item['password'], 
-                            col5: item['role']}
-                        )
+            col1: item['id'], 
+            col2: item['username'], 
+            col3: item['email'], 
+            col4: item['password'], 
+            col5: item['role']}
+        )
     })
     
     const handleClose = () => {

@@ -13,7 +13,9 @@ import {
     CCol,
     CForm,
     CFormInput,
-    CCardImage
+    CCardImage,
+    CCardLink,
+    CBadge
 } from '@coreui/react'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import Tabs from '@mui/material/Tabs';
@@ -87,7 +89,7 @@ const Students = ()=> {
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
-      };
+    };
 
     const VISIBLE_FIELDS = ['name', 'rating', 'country', 'dateCreated', 'isAdmin'];
 
@@ -110,6 +112,7 @@ const Students = ()=> {
         { field: 'col7', headerName: 'Position', width: 100 },
 
     ];
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -136,18 +139,12 @@ const Students = ()=> {
                     <CCardHeader className="text-center"><strong>Students</strong></CCardHeader>
                         <CCardBody>
                         <Tabs value={value} onChange={handleChange} aria-label="icon tabs example" centered>
-                            <Tab icon={<FormatListBulletedIcon />} aria-label="phone" />
                             <Tab icon={<GridViewIcon />} aria-label="favorite" />
+                            <Tab icon={<FormatListBulletedIcon />} aria-label="phone" />
                         </Tabs>
+
+                        {/* Tab View */}
                         <TabPanel value={value} index={0}>
-                            <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
-                                New Student
-                            </Button>
-                            <div style={{ height: 400, width: '100%' }}>
-                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
-                            </div>
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
                             <CRow className="mb-4">
                                 <CCol sm={5}>
                                     <Button  startIcon={<AddIcon />} size="small" onClick={handleOpen}>
@@ -159,26 +156,62 @@ const Students = ()=> {
                                 </CCol>
                             </CRow>
 
-                            <CRow xs={{ cols: 1 }} md={{ cols: 3 }} className="g-4">
-                                <CCol xs>
-                                <Card sx={{ maxWidth: 270, minHeight: 220 }}>
-                                    <CardActionArea >
-                                        <CardMedia
-                                            component="img"
-                                            height="140"
-                                            image={image1}
-                                            alt="green iguana"
-                                        />
-                                        <CardContent>
-                                        <Typography gutterBottom variant="title" component="div">
-                                            Cindy Thompson humper Jumpec Hendrixx
-                                        </Typography>
-                                        </CardContent>
-                                    </CardActionArea>
-                                    </Card>
-                                    
+                            <CRow>
+                                <CCol sm={6}>
+                                    <CCard className="mb-3" style={{ maxWidth: '540px' }}>
+                                        <CRow className="g-0">
+                                            <CCol md={4}>
+                                                <CCardImage src={image1} />
+                                            </CCol>
+                                            <CCol md={8}>
+                                                <CCardBody>
+                                                <CCardTitle>
+                                                        Johnny Lee Depp <CBadge size='sm' color="danger">absent</CBadge>
+                                                    </CCardTitle>
+                                                    <CCardText>
+                                                    This is a wider card with supporting text below as a natural lead-in to additional
+                                                    content. This content is a little bit longer.
+                                                    </CCardText>
+                                                    <CCardText>
+                                                    <small className="text-medium-emphasis">Last updated 3 mins ago</small>
+                                                    </CCardText>
+                                                </CCardBody>
+                                            </CCol>
+                                        </CRow>
+                                    </CCard>
+                                </CCol>
+                                <CCol sm={6}>
+                                    <CCard className="mb-3" style={{ maxWidth: '540px' }}>
+                                        <CRow className="g-0">
+                                            <CCol md={4}>
+                                                <CCardImage src={image1} />
+                                            </CCol>
+                                            <CCol md={8}>
+                                                <CCardBody>
+                                                    <CCardTitle>
+                                                        Johnny Lee Depp <CBadge size='sm' color="success">present</CBadge>
+                                                    </CCardTitle>
+                                                    <CCardText>
+                                                    <small className="text-medium-emphasis">School prefect</small>
+                                                    </CCardText>
+                                                    <CCardLink href="#/student">View more</CCardLink>
+                                                </CCardBody>
+                                            </CCol>
+                                        </CRow>
+                                    </CCard>
                                 </CCol>
                             </CRow>
+                            
+                        </TabPanel>
+
+                        {/* List View */}
+                        <TabPanel value={value} index={1}>
+                            <Button className="mb-4" startIcon={<AddIcon />} size="small" onClick={handleOpen}>
+                                New Student
+                            </Button>
+                            <div style={{ height: 400, width: '100%' }}>
+                                <DataGrid rows={rows} columns={columns} slots={{ toolbar: GridToolbar }}/>
+                            </div>
                         </TabPanel>
                         </CCardBody>
                     <CCardFooter className="text-medium-emphasis text-center">2 days ago</CCardFooter>
